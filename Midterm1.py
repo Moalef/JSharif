@@ -22,7 +22,21 @@ class TextAnalyzer:
                 num_sentence += line.count('?')
         return num_sentence
 
+    def _word_counter(self):
+        word_count = 0
+        with open(self._input_path, 'r') as input_file , open(self._ignored_path, 'r') as ignore_file:
+            split_input = input_file.read().split()
+            split_ignore = ignore_file.read().split()
+            for word in split_input:
+                if word.strip('?!.,') not in split_ignore:
+                    word_count +=1
+        return word_count
 
 
-test = TextAnalyzer(r'C:\Mojo\Prog\Python\JSharif\Exercise 3\test_input.txt' , 'C:\\' , 'D:\\')
 
+
+
+test = TextAnalyzer(r'C:\Mojo\Prog\Python\JSharif\Exercise 3\test_input.txt' , 'D:\\' ,
+                    r'C:\Mojo\Prog\Python\JSharif\Exercise 3\test_ignore.txt' )
+
+print(test._word_counter())
