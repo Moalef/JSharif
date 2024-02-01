@@ -28,7 +28,12 @@ class TextAnalyzer:
             split_input = input_file.read().split()
             split_ignore = ignore_file.read().split()
             for word in split_input:
-                if word.strip('?!.,') not in split_ignore:
+                word_stripped = word.strip('?!.,')
+                if self._max_word_len:
+                    if word_stripped not in split_ignore and len(word_stripped)>= self._min_word_len and len(word_stripped)<= self._max_word_len:
+                        word_count +=1
+                        continue
+                if word_stripped not in split_ignore and len(word_stripped)>= self._min_word_len:
                     word_count +=1
         return word_count
 
@@ -53,13 +58,45 @@ class TextAnalyzer:
                 return dict(sorted(output_dict.items(), key=lambda item: item[1]))
             elif self._sorted == 'Desc':
                  return dict(sorted(output_dict.items(), key=lambda item: item[1] , reverse= True))
-            return output_dict
+        return output_dict
+
+
+    def longest_words(self):
+        with open(self._input_path, 'r') as input_file , open(self._ignored_path, 'r') as ignore_file:
+            split_input = input_file.read().split()
+            split_ignore = ignore_file.read().split()
+            lengths_dict = {}
+            for word in split_input:
+                if word not in lengths_dict.keys() and word not in split_ignore:
+                    lengths_dict[word] = len(word)
+        return dict(sorted(lengths_dict.items(), key=lambda item: item[1] , reverse= True))
+
+            
+
+    def ingnored_words(self):
+        with open(self._ignored_path, 'r') as ignore_file:
+            split_input = ignore_file.read().split()
+        return split_input
+
+
+    def avg_number_of_characters(self):
+        with open(self._input_path, 'r') as input_file , open(self._ignored_path, 'r') as ignore_file:
+            split_input = input_file.read().split()
+            split_ignore = ignore_file.read().split()
+            lengths_list = []
+            for word in split_input:
+                if word not in split_ignore:
+                    lengths_list.append(len(word))
+        return sum(lengths_list)/len(lengths_list)
 
 
 
+
+    def create_output(self):
+        pass
 
 
 test = TextAnalyzer(r'C:\Mojo\Prog\Python\JSharif\Exercise 3\test_input.txt' , 'D:\\' ,
                     r'C:\Mojo\Prog\Python\JSharif\Exercise 3\test_ignore.txt'  , consec_words = 2 , sorted= 'Asc')
 
-print(test.consec_words_counter())
+print(test.avg_number_of_characters())
