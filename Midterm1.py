@@ -110,99 +110,99 @@ class TextAnalyzer:
 
 
 
-
-window = tk.Tk()
-window.title("Text Analyzer")
-window.geometry("700x700") 
-
-
-def open_input_file():
-    
-    global filepath_input
-    filepath_input = askopenfilename (filetypes=[ ('text files', '*.txt')])
-    if not filepath_input:
-        return
-    status_input.config(text = f"received - {filepath_input}")
+if __name__ == '__main__':
+        
+    window = tk.Tk()
+    window.title("Text Analyzer")
+    window.geometry("700x700") 
 
 
-def open_ignore_file():
-    
-    global filepath_ignore
-    filepath_ignore = askopenfilename (filetypes=[ ('text files', '*.txt')])
-    if not filepath_ignore:
-        return
-    status_ignore.config(text = f"received - {filepath_input}")
-
-def save_output():
-    global filepath_output
-    filepath_output = asksaveasfile(defaultextension=".json",filetypes=[("JSON Files","*.json")])
-    status_output.config(text = "Received")
+    def open_input_file():
+        
+        global filepath_input
+        filepath_input = askopenfilename (filetypes=[ ('text files', '*.txt')])
+        if not filepath_input:
+            return
+        status_input.config(text = f"received - {filepath_input}")
 
 
-def run():
-    try:
-        obj = TextAnalyzer(filepath_input, filepath_output.name, filepath_ignore, min_word_len_ent.get(),
-                           max_word_len_ent.get(), consec_words_ent.get(), order.get())
-        print(order.get())
-        obj.create_output()
-        status_run.config(text = "Done!")
+    def open_ignore_file():
+        
+        global filepath_ignore
+        filepath_ignore = askopenfilename (filetypes=[ ('text files', '*.txt')])
+        if not filepath_ignore:
+            return
+        status_ignore.config(text = f"received - {filepath_input}")
 
-    except Exception as e:
-        print(e)
-        status_run.config(text = f"Error {e}")
+    def save_output():
+        global filepath_output
+        filepath_output = asksaveasfile(defaultextension=".json",filetypes=[("JSON Files","*.json")])
+        status_output.config(text = "Received")
 
 
+    def run():
+        try:
+            obj = TextAnalyzer(filepath_input, filepath_output.name, filepath_ignore, min_word_len_ent.get(),
+                            max_word_len_ent.get(), consec_words_ent.get(), order.get())
+            obj.create_output()
+            status_run.config(text = "Done!")
+
+        except Exception as e:
+            print(e)
+            status_run.config(text = f"Error {e}")
 
 
 
-status_input = tk.Label(text = "Input File")
-btn_open_input = tk.Button(window, text="Open Input Text File", command=open_input_file)
 
 
-status_ignore = tk.Label(text = "Ignore File")
-btn_open_ignore = tk.Button(window, text="Open Ignore Words File", command=open_ignore_file)
-
-btn_Save = tk.Button(window, text="Save Output File", command=save_output)
-status_output = tk.Label(text = "")
-
-min_word_len_ent = tk.IntVar(value=0)
-lbl_get_min_word = tk.Label(window, text = 'Enter Minimum Word Length (Default= 0)')
-min_word_len = tk.Entry(window, textvariable = min_word_len_ent )
-
-max_word_len_ent = tk.IntVar(value= None)
-lbl_get_max_word = tk.Label(window, text = 'Enter Maximum Word Length (Optional)')
-max_word_len = tk.Entry(window, textvariable = max_word_len_ent )
-
-consec_words_ent = tk.IntVar(value = 1)
-lbl_get_consec_word = tk.Label(window, text = 'Number of Consecutive Words to Count (Optional)')
-consec_words = tk.Entry(window, textvariable = consec_words_ent )
-
-lbl_radio = tk.Label(window, text = 'Choose Order (Optional)')
-order = tk.StringVar( value= None)
-r1 = tk.Radiobutton(window, text="Ascending", variable=order, value= 'Asc' )
-r2 = tk.Radiobutton(window, text="Descending", variable=order, value= 'Desc')
-
-btn_run = tk.Button(window, text="Analyze Text Now", command=run)
-status_run = tk.Label(text = "")
+    status_input = tk.Label(text = "Input File")
+    btn_open_input = tk.Button(window, text="Open Input Text File", command=open_input_file)
 
 
+    status_ignore = tk.Label(text = "Ignore File")
+    btn_open_ignore = tk.Button(window, text="Open Ignore Words File", command=open_ignore_file)
 
-btn_open_input.grid(row=0, column=0, sticky="ew", padx=5, pady=0)
-status_input.grid(row=0, column=1, sticky="ew" , padx=5, pady=0)
-btn_open_ignore.grid(row=1, column=0, sticky="ew" , padx=5, pady=0)
-status_ignore.grid(row=1, column=1, sticky="ew" , padx=5, pady=0)
-btn_Save.grid(row=2, column=0, sticky="ew", padx=5, pady=15)
-status_output.grid(row=2, column=1, sticky="ew" ,padx=5, pady=0)
-lbl_get_min_word.grid(row=3, column=0, sticky="ew", padx=5, pady=5)
-min_word_len.grid(row=3, column=1, sticky="ew", padx=5, pady=5)
-lbl_get_max_word.grid(row=4, column=0, sticky="ew", padx=5, pady=5)
-max_word_len.grid(row=4, column=1, sticky="ew", padx=5, pady=5)
-lbl_get_consec_word.grid(row=5, column=0, sticky="ew", padx=5, pady=5)
-consec_words.grid(row=5, column=1, sticky="ew", padx=5, pady=5)
-lbl_radio.grid(row=6, column=0, sticky="ew", padx=5, pady=5)
-r1.grid(row=7, column=0, sticky="ew", padx=5, pady=5)
-r2.grid(row=8, column=0, sticky="ew", padx=5, pady=5)
-btn_run.grid(row=9, column=0, sticky="ew", padx=5, pady=5)
-status_run.grid(row=10, column=0, sticky="ew", padx=5, pady=5)
+    btn_Save = tk.Button(window, text="Save Output File", command=save_output)
+    status_output = tk.Label(text = "")
 
-window.mainloop()
+    min_word_len_ent = tk.IntVar(value=0)
+    lbl_get_min_word = tk.Label(window, text = 'Enter Minimum Word Length (Default= 0)')
+    min_word_len = tk.Entry(window, textvariable = min_word_len_ent )
+
+    max_word_len_ent = tk.IntVar(value= None)
+    lbl_get_max_word = tk.Label(window, text = 'Enter Maximum Word Length (Optional)')
+    max_word_len = tk.Entry(window, textvariable = max_word_len_ent )
+
+    consec_words_ent = tk.IntVar(value = 1)
+    lbl_get_consec_word = tk.Label(window, text = 'Number of Consecutive Words to Count (Optional)')
+    consec_words = tk.Entry(window, textvariable = consec_words_ent )
+
+    lbl_radio = tk.Label(window, text = 'Choose Order (Optional)')
+    order = tk.StringVar( value= None)
+    r1 = tk.Radiobutton(window, text="Ascending", variable=order, value= 'Asc' )
+    r2 = tk.Radiobutton(window, text="Descending", variable=order, value= 'Desc')
+
+    btn_run = tk.Button(window, text="Analyze Text Now", command=run)
+    status_run = tk.Label(text = "")
+
+
+
+    btn_open_input.grid(row=0, column=0, sticky="ew", padx=5, pady=0)
+    status_input.grid(row=0, column=1, sticky="ew" , padx=5, pady=0)
+    btn_open_ignore.grid(row=1, column=0, sticky="ew" , padx=5, pady=0)
+    status_ignore.grid(row=1, column=1, sticky="ew" , padx=5, pady=0)
+    btn_Save.grid(row=2, column=0, sticky="ew", padx=5, pady=15)
+    status_output.grid(row=2, column=1, sticky="ew" ,padx=5, pady=0)
+    lbl_get_min_word.grid(row=3, column=0, sticky="ew", padx=5, pady=5)
+    min_word_len.grid(row=3, column=1, sticky="ew", padx=5, pady=5)
+    lbl_get_max_word.grid(row=4, column=0, sticky="ew", padx=5, pady=5)
+    max_word_len.grid(row=4, column=1, sticky="ew", padx=5, pady=5)
+    lbl_get_consec_word.grid(row=5, column=0, sticky="ew", padx=5, pady=5)
+    consec_words.grid(row=5, column=1, sticky="ew", padx=5, pady=5)
+    lbl_radio.grid(row=6, column=0, sticky="ew", padx=5, pady=5)
+    r1.grid(row=7, column=0, sticky="ew", padx=5, pady=5)
+    r2.grid(row=8, column=0, sticky="ew", padx=5, pady=5)
+    btn_run.grid(row=9, column=0, sticky="ew", padx=5, pady=5)
+    status_run.grid(row=10, column=0, sticky="ew", padx=5, pady=5)
+
+    window.mainloop()
