@@ -15,8 +15,11 @@ class TextAnalyzer:
         self._sorted = sorted
     
     def line_count(self):
-        with open(self._input_path, 'r') as input_file:
-            return len(input_file.readlines())
+        if self._input_path[-3] == 'txt':
+            with open(self._input_path, 'r') as input_file:
+                return len(input_file.readlines())
+        else:
+            raise TypeError()
         
     def sentence_count(self):
         num_sentence = 0
