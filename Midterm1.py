@@ -13,17 +13,26 @@ class TextAnalyzer:
         self._max_word_len = max_word_len
         self._consec_words = consec_words
         self._sorted = sorted
+
+    @property
+     
+    def input_path(self):
+        return self._input_path
+     
+    @input_path.setter
+    def input_path(self, val):
+        self._input_path = val
     
     def line_count(self):
-        if self._input_path[-3] == 'txt':
-            with open(self._input_path, 'r') as input_file:
+        if self.input_path[-3:] == 'txt':
+            with open(self.input_path, 'r') as input_file:
                 return len(input_file.readlines())
         else:
             raise TypeError()
         
     def sentence_count(self):
         num_sentence = 0
-        with open(self._input_path, 'r') as input_file:
+        with open(self.input_path, 'r') as input_file:
             for line in input_file:
                 num_sentence += line.count('.')
                 num_sentence += line.count('!')
@@ -32,7 +41,7 @@ class TextAnalyzer:
 
     def word_counter(self):
         word_count = 0
-        with open(self._input_path, 'r') as input_file , open(self._ignored_path, 'r') as ignore_file:
+        with open(self.input_path, 'r') as input_file , open(self._ignored_path, 'r') as ignore_file:
             split_input = input_file.read().split()
             split_ignore = ignore_file.read().split()
             for word in split_input:
@@ -49,7 +58,7 @@ class TextAnalyzer:
     def consec_words_counter(self):
         if self._consec_words == 1:
             return self.word_counter()
-        with open(self._input_path, 'r') as input_file , open(self._ignored_path, 'r') as ignore_file:
+        with open(self.input_path, 'r') as input_file , open(self._ignored_path, 'r') as ignore_file:
             split_input = input_file.read().split()
             split_ignore = ignore_file.read().split()
             for ignored_word in split_ignore:
@@ -70,7 +79,7 @@ class TextAnalyzer:
 
 
     def longest_words(self):
-        with open(self._input_path, 'r') as input_file , open(self._ignored_path, 'r') as ignore_file:
+        with open(self.input_path, 'r') as input_file , open(self._ignored_path, 'r') as ignore_file:
             split_input = input_file.read().split()
             split_ignore = ignore_file.read().split()
             lengths_dict = {}
@@ -88,7 +97,7 @@ class TextAnalyzer:
 
 
     def avg_number_of_characters(self):
-        with open(self._input_path, 'r') as input_file , open(self._ignored_path, 'r') as ignore_file:
+        with open(self.input_path, 'r') as input_file , open(self._ignored_path, 'r') as ignore_file:
             split_input = input_file.read().split()
             split_ignore = ignore_file.read().split()
             lengths_list = []
@@ -135,7 +144,7 @@ if __name__ == '__main__':
         filepath_ignore = askopenfilename (filetypes=[ ('text files', '*.txt')])
         if not filepath_ignore:
             return
-        status_ignore.config(text = f"received - {filepath_input}")
+        status_ignore.config(text = f"received - {filepath_ignore}")
 
     def save_output():
         global filepath_output
@@ -153,6 +162,13 @@ if __name__ == '__main__':
         except Exception as e:
             print(e)
             status_run.config(text = f"Error {e}")
+
+    
+    # def run():
+    #     obj = TextAnalyzer(filepath_input, filepath_output.name, filepath_ignore, min_word_len_ent.get(),
+    #                         max_word_len_ent.get(), consec_words_ent.get(), order.get())
+    #     obj.create_output()
+    #     status_run.config(text = "Done!")
 
 
 
