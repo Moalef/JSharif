@@ -10,6 +10,12 @@ class TextAnalyzerTest:
 
     def test_line_count(self):
         assert self.st.line_count() >= 0
+        
         with pytest.raises (TypeError):
-            self.st._input_path = r'C:\Users\Mojtaba\Downloads\Linux\rufus-4.4p.exe'
+            self.st  = TextAnalyzer (r'C:\Users\Mojtaba\Downloads\Linux\rufus-4.4p.exe', 
+                                     r'C:\Mojo\Prog\Python\JSharif\Exercise 3\test_ignore.txt',
+                                    r'C:\Mojo\Prog\Python\JSharif\Exercise 3\test.json'
+                                    )
+            self.st.line_count()
+            
     

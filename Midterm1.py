@@ -15,7 +15,6 @@ class TextAnalyzer:
         self._sorted = sorted
 
     @property
-     
     def input_path(self):
         return self._input_path
      
